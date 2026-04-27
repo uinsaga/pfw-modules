@@ -1,33 +1,17 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+Route::get('/', [ArticleController::class, 'index']);
+Route::post('/create-article', [ArticleController::class, 'store']);
+Route::get('/edit-article/{id}', [ArticleController::class, 'edit']);
+Route::put('/edit-article/{id}', [ArticleController::class, 'update']);
+Route::delete('/delete-article/{id}', [ArticleController::class, 'destroy']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/about', function () {
-
-    $data = [
-        "name" => "Jehan Afwazi Ahmad",
-        "address" => "Temanggung",
-        "email" => "jehan.afwazi@gmail.co",
-        "univ" => "UINSAGA"
-    ];
-
-    return view('about', compact('data'));
-});
+Route::get('/about', [AboutController::class, 'index']);
+Route::get('/calculate-square/{p}/{l}', [AboutController::class, 'calculateSquare']);
 
 Route::get('login', function () {
     return view('auths.login');
