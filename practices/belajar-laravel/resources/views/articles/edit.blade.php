@@ -3,7 +3,7 @@
 @section('content')
     <div class="shadow p-3">
         <h2> Edit article</h2>
-        <form action="/edit-article/{{ $article->id }}" method="POST">
+        <form action="/articles/{{ $article->id }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-3">

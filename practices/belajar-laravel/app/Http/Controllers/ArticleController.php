@@ -12,13 +12,26 @@ class ArticleController extends Controller
     {
         // $articles = DB::table("articles")->get()->toArray();
         $articles = Article::get();
+        return view("articles.index", ["articleList" => $articles]);
+    }
 
+    public function create()
+    {
+        return view("articles.create");
+    }
 
-        return view("welcome", ["articleList" => $articles]);
+    public function show($id)
+    {
+        $article = Article::find($id);
+
+        return view("articles.view", compact('article'));
     }
 
     public function store(Request $request)
     {
+
+        dd($request);
+
         $newArticle = $request->only(["title", "image", "description"]);
 
         //query builder
@@ -34,7 +47,7 @@ class ArticleController extends Controller
     {
         $article = Article::where("id", $id)->first();
 
-        return view("edit_article", compact("article"));
+        return view("articles.edit", compact("article"));
     }
 
     public function update(Request $request, $id)
@@ -50,7 +63,8 @@ class ArticleController extends Controller
         return redirect("/");
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         Article::where("id", $id)->delete();
         return redirect()->back();
     }
