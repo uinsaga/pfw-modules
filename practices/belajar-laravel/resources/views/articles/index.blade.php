@@ -13,7 +13,7 @@
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">
                     <h4 class="text-center"><span class="label label-info">{{ $article->title }}</span></h4>
-                    <img src="{{ $article->image }}" class="img-thumbnail">
+                    <img src="storage/{{ $article->image }}" class="img-thumbnail">
                     <div class="caption">
                         <p>{{ $article->description }}</p>
                         <div class="row">

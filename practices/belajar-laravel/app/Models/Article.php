@@ -16,6 +16,4 @@ class Article extends Model
         "image",
         "description"
     ];
-
-    
 }

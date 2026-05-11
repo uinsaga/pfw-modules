@@ -30,15 +30,33 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
 
-        dd($request);
 
-        $newArticle = $request->only(["title", "image", "description"]);
+        $request->validate([
+            'title' => "required|string|min:5|max:20",
+            "image" => "required|mimes:jpg,png,pdf|max:2048",
+            "description" => "nullable"
+        ]);
+
+        // $newArticle = $request->only(["title", "image", "description"]);
 
         //query builder
         // DB::table("articles")->insert($newArticle);
 
         //eloquent
-        Article::created($newArticle);
+        // $saved = Article::created([]);
+        // dd($saved);
+
+
+        $path = $request->file('image')->store('articles', 'public');
+
+        $article = new Article();
+        $article->title = $request->get("title");
+        $article->image = $path;
+        $article->description = $request->get("description");
+
+        if (!$article->save()) {
+            return redirect()->withErrors("error", "fail to save data.");
+        }
 
         return redirect()->back();
     }
@@ -53,10 +71,22 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
 
+        $request->validate([
+            'title' => "required|string|min:5|max:20",
+            "image" => "required|mimes:jpg,png,pdf|max:4096",
+            "description" => "nullable"
+        ]);
+
         $article = Article::where("id", $id)->first();
 
+        $image = $request->get("image");
+
+        if ($request->hasFile("image")) {
+            $image = $request->file('image')->store('articles', 'public');
+        }
+
         $article->title = $request->title;
-        $article->image = $request->image;
+        $article->image = $image;
         $article->description = $request->description;
         $article->save();
 
