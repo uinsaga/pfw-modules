@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,6 +30,23 @@ Route::prefix("/articles")
 Route::get('/about', [AboutController::class, 'index']);
 Route::get('/calculate-square/{p}/{l}', [AboutController::class, 'calculateSquare']);
 
+
+//authentication
 Route::get('login', function () {
     return view('auths.login');
 });
+
+Route::get('register', function () {
+    return view('auths.register');
+});
+
+Route::post("register", [AuthController::class, "register"])->name("auth.register");
+
+Route::post("login", [AuthController::class, "login"])->name("auth.login");
+
+Route::post("logout", [AuthController::class, "logout"])->name("auth.logout");
+
+
+Route::get("/admin", function () {
+    return view("admin.dashboard");
+})->middleware("auth")->name("admin.dashboard");
